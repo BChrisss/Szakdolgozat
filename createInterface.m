@@ -24,7 +24,8 @@ coordR2 = uicontrol('Style', 'edit', 'Position',[750 320 50 20],'Callback', @get
 function getTcoord1(src,eventdata)
 str = get(src, 'String');
 if isnan(str2double(str))
-    set(src, 'String',' 0');
+    set(src, 'String',' Invalid');
+    Tcoord1 = str;
     warndlg('Input must be numerical');
 else
     Tcoord1 = str2double(str);
@@ -34,7 +35,8 @@ end
 function getTcoord2(src,eventdata)
 str = get(src, 'String');
 if isnan(str2double(str))
-    set(src, 'String',' 0');
+    set(src, 'String',' Invalid');
+    Tcoord2 = str;
     warndlg('Input must be numerical');
 else
     Tcoord2 = str2double(str);
@@ -44,7 +46,8 @@ end
 function getRcoord1(src,eventdata)
 str = get(src, 'String');
 if isnan(str2double(str))
-    set(src, 'String',' 0');
+    set(src, 'String',' Invalid');
+    Rcoord1 = str;
     warndlg('Input must be numerical');
 else
     Rcoord1 = str2double(str);
@@ -54,7 +57,8 @@ end
 function getRcoord2(src,eventdata)
 str = get(src, 'String');
 if isnan(str2double(str))
-    set(src, 'String',' 0');
+    set(src, 'String',' Invalid');
+    Rcoord2 = str;
     warndlg('Input must be numerical');
 else
     Rcoord2 = str2double(str);
@@ -62,11 +66,15 @@ end
 end
 
 function addRobot(src,eventdata)
-Robotnum = Robotnum+1;
+if isnumeric(Rcoord1) & isnumeric(Rcoord2) & not(isReady)
+    Robotnum = Robotnum+1;
+end
 end
 
 function addTarget(src,eventdata)
-Targetnum = Targetnum+1;
+if isnumeric(Tcoord1) & isnumeric(Tcoord2) & not(isReady)
+    Targetnum = Targetnum+1;
+end
 end
 
 function start(src,eventdata)
