@@ -3,6 +3,8 @@ global Tcoord1;
 global Tcoord2;
 global Rcoord1;
 global Rcoord2;
+global Target;
+global Robot;
 global Robotnum;
 global Targetnum;
 global isReady;
@@ -27,7 +29,7 @@ if isnan(str2double(str))
     set(src, 'String','');
     Tcoord1 = str;
     warndlg('Input must be numerical');
-elseif str2double(str) > 49
+elseif str2double(str) > 49 || str2double(str) < 0
     set(src, 'String','');
     Tcoord1 = str;
     warndlg('Input must be between 0 and 49');
@@ -42,7 +44,7 @@ if isnan(str2double(str))
     set(src, 'String','');
     Tcoord2 = str;
     warndlg('Input must be numerical');
-elseif str2double(str) > 49
+elseif str2double(str) > 49 || str2double(str) < 0
     set(src, 'String','');
     Tcoord2 = str;
     warndlg('Input must be between 0 and 49');
@@ -57,7 +59,7 @@ if isnan(str2double(str))
     set(src, 'String','');
     Rcoord1 = str;
     warndlg('Input must be numerical');
-elseif str2double(str) > 49
+elseif str2double(str) > 49 || str2double(str) < 0
     set(src, 'String','');
     Rcoord1 = str;
     warndlg('Input must be between 0 and 49');
@@ -72,7 +74,7 @@ if isnan(str2double(str))
     set(src, 'String','');
     Rcoord2 = str;
     warndlg('Input must be numerical');
-elseif str2double(str) > 49
+elseif str2double(str) > 49 || str2double(str) < 0
     set(src, 'String','');
     Rcoord2 = str;
     warndlg('Input must be between 0 and 49');
@@ -82,14 +84,48 @@ end
 end
 
 function addRobot(src,eventdata)
-if isnumeric(Rcoord1) & isnumeric(Rcoord2) & not(isReady)
-    Robotnum = Robotnum+1;
+available = 1;
+if not(isReady)
+    for i = 1:Targetnum
+        if Target{i}{2} == [Rcoord1 Rcoord2 0]
+            available = 0;
+            warndlg('There is already a target on this place');
+        end
+    end
+    
+    for i = 1:Robotnum
+        if Robot{i}{2} == [Rcoord1 Rcoord2 0]
+            available = 0;
+            warndlg('There is already a robot on this place');
+        end
+    end
+    
+    if isnumeric(Rcoord1) && isnumeric(Rcoord2) && available
+        Robotnum = Robotnum+1;
+    end
 end
 end
 
 function addTarget(src,eventdata)
-if isnumeric(Tcoord1) & isnumeric(Tcoord2) & not(isReady)
-    Targetnum = Targetnum+1;
+available = 1;
+if not(isReady)
+    for i = 1:Targetnum
+        if Target{i}{2} == [Tcoord1 Tcoord2 0]
+            available = 0;
+            warndlg('There is already a target on this place');
+        end
+    end
+    
+    for i = 1:Robotnum
+        if Robot{i}{2} == [Tcoord1 Tcoord2 0]
+            available = 0;
+            warndlg('There is already a robot on this place');
+        end
+    end
+    
+    if isnumeric(Tcoord1) && isnumeric(Tcoord2) && available
+        Targetnum = Targetnum+1;
+    end
 end
 end
 
