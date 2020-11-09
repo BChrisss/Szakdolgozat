@@ -24,9 +24,13 @@ coordR2 = uicontrol('Style', 'edit', 'Position',[750 320 50 20],'Callback', @get
 function getTcoord1(src,eventdata)
 str = get(src, 'String');
 if isnan(str2double(str))
-    set(src, 'String',' Invalid');
+    set(src, 'String','');
     Tcoord1 = str;
     warndlg('Input must be numerical');
+elseif str2double(str) > 49
+    set(src, 'String','');
+    Tcoord1 = str;
+    warndlg('Input must be between 0 and 49');
 else
     Tcoord1 = str2double(str);
 end
@@ -35,9 +39,13 @@ end
 function getTcoord2(src,eventdata)
 str = get(src, 'String');
 if isnan(str2double(str))
-    set(src, 'String',' Invalid');
+    set(src, 'String','');
     Tcoord2 = str;
     warndlg('Input must be numerical');
+elseif str2double(str) > 49
+    set(src, 'String','');
+    Tcoord2 = str;
+    warndlg('Input must be between 0 and 49');
 else
     Tcoord2 = str2double(str);
 end
@@ -46,9 +54,13 @@ end
 function getRcoord1(src,eventdata)
 str = get(src, 'String');
 if isnan(str2double(str))
-    set(src, 'String',' Invalid');
+    set(src, 'String','');
     Rcoord1 = str;
     warndlg('Input must be numerical');
+elseif str2double(str) > 49
+    set(src, 'String','');
+    Rcoord1 = str;
+    warndlg('Input must be between 0 and 49');
 else
     Rcoord1 = str2double(str);
 end
@@ -57,9 +69,13 @@ end
 function getRcoord2(src,eventdata)
 str = get(src, 'String');
 if isnan(str2double(str))
-    set(src, 'String',' Invalid');
+    set(src, 'String','');
     Rcoord2 = str;
     warndlg('Input must be numerical');
+elseif str2double(str) > 49
+    set(src, 'String','');
+    Rcoord2 = str;
+    warndlg('Input must be between 0 and 49');
 else
     Rcoord2 = str2double(str);
 end
