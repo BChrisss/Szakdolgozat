@@ -179,6 +179,10 @@ elseif floor(str2double(str))-str2double(str) ~= 0
     warndlg('Input must be an integer');
 else
     Obstaclenum = str2double(str);
+    for i = 1:Obstaclenum
+        Obstacle{i}{1} = 0;
+        Obstacle{i}{2} = 0;
+    end
 end
 end
 

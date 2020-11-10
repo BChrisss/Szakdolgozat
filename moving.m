@@ -13,6 +13,8 @@ function [square, currentPos, dirVector] = moving(square, currentPos, dirVector)
   global distR1;
   global distR2;
   global distpred;
+  global distO1;
+  global distO2;
   
   if get(square,'Facecolor') == [1 0 0]                                     % Target
     nextPos = currentPos + scale*dirVector;
@@ -28,9 +30,38 @@ function [square, currentPos, dirVector] = moving(square, currentPos, dirVector)
             dirVector = [dirVector(2) -dirVector(1) 0];
         end
     end
-  nextPos = currentPos + scale*dirVector;
-  set(square,'Position',[nextPos(1) nextPos(2) 1 1]);
-  currentPos = nextPos;
+    nextPos = currentPos + scale*dirVector;
+    
+    minDist = 1.2;
+    isPosempty = 0;
+    while not(isPosempty)
+        isPosempty = 1;
+        
+        for i = 1:Obstaclenum
+        if norm(Obstacle{i}{2} - nextPos) < minDist
+            dirVector = [-dirVector(2) dirVector(1) 0];
+            nextPos = currentPos + scale*dirVector;
+            isPosempty = 0;
+        end
+        end
+           
+        for j = 1:Targetnum
+        if norm(Target{j}{2}-nextPos) < minDist && norm(Target{j}{2}-currentPos) > 0
+            dirVector = (currentPos-Target{j}{2})/norm(Target{j}{2}-currentPos);
+            nextPos = currentPos + scale*dirVector;
+            isPosempty = 1;
+        end
+        end
+        
+        if nextPos(1) > 49 || nextPos(1) < 0 || nextPos(2) > 49 || nextPos(2) < 0
+            dirVector = [-dirVector(2) dirVector(1) 0];
+            nextPos = currentPos + scale*dirVector;
+            isPosempty = 0;
+        end
+    end
+
+    set(square,'Position',[nextPos(1) nextPos(2) 1 1]);
+    currentPos = nextPos;
   end
   
   
@@ -75,17 +106,17 @@ function [square, currentPos, dirVector] = moving(square, currentPos, dirVector)
     for k = 1:Obstaclenum
     currentDistance = norm(Obstacle{k}{2} - currentPos);
     currentVector = (Obstacle{k}{2}-currentPos)/currentDistance;
-    if currentDistance <= distR2 && currentDistance > distR1
-        distMatrix = [distR1 currentDistance distR2];
+    if currentDistance <= distO2 && currentDistance > distO1
+        distMatrix = [distO1 currentDistance distO2];
         scaledMatrix = 1 - rescale(distMatrix,0,1);
         scaleValue = scaledMatrix(2);
         dirVector = dirVector - currentVector*scaleValue;
-    elseif currentDistance <= distR1
+    elseif currentDistance <= distO1
         dirVector = dirVector - currentVector;
     end
     end
     
-    if dirVector == [0 0 0]
+    if norm(dirVector) < 0.1
         targetPos = [randi(50) randi(50) 0];
         dirVector = (targetPos-currentPos)/norm(targetPos-currentPos);
     end

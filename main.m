@@ -17,6 +17,8 @@ global distT2;
 global distT3;
 global distR1;
 global distR2;
+global distO1;
+global distO2;
 global distpred;
 global maxObstacle;
 global alreadyObstacle;
@@ -44,8 +46,8 @@ Tcoord2 = '';
 Rcoord1 = '';
 Rcoord2 = '';
 
-scale = 0.2;
-maxObstacle = 50;
+scale = 0.1;
+maxObstacle = 10;
 
 distT1 = 2;
 distT2 = 4;
@@ -53,6 +55,8 @@ distT3 = 8;
 distpred = 10;
 distR1 = 6;
 distR2 = 10;
+distO1 = 2;
+distO2 = 5;
 
 
 while isReady == 0
