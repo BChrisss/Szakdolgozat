@@ -46,14 +46,11 @@ function [square, currentPos, dirVector] = moving(square, currentPos, dirVector)
             dirVector = dirVector + currentVector;
         elseif currentDistance <= distT2 && currentDistance > distT1
             distMatrix = [distT1 currentDistance distT2];
-            scaledMatrix = rescale(distMatrix,0,1);
+            scaledMatrix = rescale(distMatrix,-1,1);
             scaleValue = scaledMatrix(2);
             dirVector = dirVector + currentVector*scaleValue;
         elseif currentDistance <= distT1
-            distMatrix = [0 currentDistance distT2];
-            scaledMatrix = 1 - rescale(distMatrix,0,1);
-            scaleValue = scaledMatrix(2);
-            dirVector = dirVector - currentVector*scaleValue;
+            dirVector = dirVector - currentVector;
         end
     end
     

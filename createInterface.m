@@ -89,14 +89,14 @@ if not(isReady)
     for i = 1:Targetnum
         if Target{i}{2} == [Rcoord1 Rcoord2 0]
             available = 0;
-            warndlg('There is already a target on this place');
+            warndlg('There is already a target in this place');
         end
     end
     
     for i = 1:Robotnum
         if Robot{i}{2} == [Rcoord1 Rcoord2 0]
             available = 0;
-            warndlg('There is already a robot on this place');
+            warndlg('There is already a robot in this place');
         end
     end
     
@@ -112,14 +112,14 @@ if not(isReady)
     for i = 1:Targetnum
         if Target{i}{2} == [Tcoord1 Tcoord2 0]
             available = 0;
-            warndlg('There is already a target on this place');
+            warndlg('There is already a target in this place');
         end
     end
     
     for i = 1:Robotnum
         if Robot{i}{2} == [Tcoord1 Tcoord2 0]
             available = 0;
-            warndlg('There is already a robot on this place');
+            warndlg('There is already a robot in this place');
         end
     end
     
