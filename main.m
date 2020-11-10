@@ -6,9 +6,11 @@ global Rcoord1;
 global Rcoord2;
 global Robotnum;
 global Targetnum;
+global Obstaclenum;
 global isReady;
 global Target;
 global Robot;
+global Obstacle;
 global scale;
 global distT1;
 global distT2;
@@ -16,10 +18,16 @@ global distT3;
 global distR1;
 global distR2;
 global distpred;
+global maxObstacle;
+global alreadyObstacle;
 
 Robotnum = 0;
 Targetnum = 0;
+Obstaclenum = 0;
+Obstacle = cell(1);
+Obstacle{1} = cell(1,2);
 isReady = 0;
+alreadyObstacle = 0;
 Robot = cell(1);
 Robot{1} = cell(1,3);
 lastRobot = cell(1);
@@ -37,6 +45,7 @@ Rcoord1 = '';
 Rcoord2 = '';
 
 scale = 0.2;
+maxObstacle = 50;
 
 distT1 = 2;
 distT2 = 4;

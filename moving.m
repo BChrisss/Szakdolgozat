@@ -4,6 +4,8 @@ function [square, currentPos, dirVector] = moving(square, currentPos, dirVector)
   global Targetnum;
   global Robot;
   global Target;
+  global Obstacle;
+  global Obstaclenum;
   
   global distT1;
   global distT2;
@@ -35,8 +37,8 @@ function [square, currentPos, dirVector] = moving(square, currentPos, dirVector)
   if get(square,'Facecolor') == [0 0 1]                                     % Robot
     dirVector = [0 0 0];
     for i = 1:Targetnum
-        currentVector = (Target{i}{2}-currentPos)/sqrt((Target{i}{2}(1)-currentPos(1))^2 + (Target{i}{2}(2)-currentPos(2))^2);
         currentDistance = norm(Target{i}{2} - currentPos);
+        currentVector = (Target{i}{2}-currentPos)/currentDistance;
         if currentDistance <= distpred && currentDistance > distT3
             distMatrix = [distT3 currentDistance distpred];
             scaledMatrix = 1 - rescale(distMatrix,0,1);
@@ -55,8 +57,8 @@ function [square, currentPos, dirVector] = moving(square, currentPos, dirVector)
     end
     
     for j = 1:Robotnum
-        currentVector = (Robot{j}{2}-currentPos)/sqrt((Robot{j}{2}(1)-currentPos(1))^2 + (Robot{j}{2}(2)-currentPos(2))^2);
         currentDistance = norm(Robot{j}{2} - currentPos);
+        currentVector = (Robot{j}{2}-currentPos)/currentDistance;
         if currentDistance == 0
             break;
         end
@@ -70,9 +72,22 @@ function [square, currentPos, dirVector] = moving(square, currentPos, dirVector)
         end
     end
     
+    for k = 1:Obstaclenum
+    currentDistance = norm(Obstacle{k}{2} - currentPos);
+    currentVector = (Obstacle{k}{2}-currentPos)/currentDistance;
+    if currentDistance <= distR2 && currentDistance > distR1
+        distMatrix = [distR1 currentDistance distR2];
+        scaledMatrix = 1 - rescale(distMatrix,0,1);
+        scaleValue = scaledMatrix(2);
+        dirVector = dirVector - currentVector*scaleValue;
+    elseif currentDistance <= distR1
+        dirVector = dirVector - currentVector;
+    end
+    end
+    
     if dirVector == [0 0 0]
         targetPos = [randi(50) randi(50) 0];
-        dirVector = (targetPos-currentPos)/sqrt((targetPos(1)-currentPos(1))^2 + (targetPos(2)-currentPos(2))^2);
+        dirVector = (targetPos-currentPos)/norm(targetPos-currentPos);
     end
     
     %dirVector = dirVector/norm(dirVector);                                  % egységnyi hosszú legyen
