@@ -117,7 +117,7 @@ function [square, currentPos, dirVector] = moving(square, currentPos, dirVector)
     end
     
     if norm(dirVector) < 0.1
-        targetPos = [randi(50) randi(50) 0];
+        targetPos = [randi(49) randi(49) 0];
         dirVector = (targetPos-currentPos)/norm(targetPos-currentPos);
     end
     

@@ -8,6 +8,7 @@ global Robot;
 global Robotnum;
 global Targetnum;
 global isReady;
+global timetoStop;
 global Obstacle;
 global Obstaclenum;
 global maxObstacle;
@@ -21,7 +22,8 @@ ylim([0 50]);
 
 buttonTarget = uicontrol('Style', 'pushbutton', 'Position',[850 500 100 60], 'String','Add Target', 'FontWeight', 'bold','Callback', @addTarget);
 buttonRobot = uicontrol('Style', 'pushbutton', 'Position',[850 400 100 60], 'String','Add Robot', 'FontWeight', 'bold','Callback', @addRobot);
-buttonStart = uicontrol('Style', 'pushbutton', 'Position',[750 100 100 60], 'String','Start', 'FontWeight', 'bold','Callback', @start);
+buttonStart = uicontrol('Style', 'pushbutton', 'Position',[680 100 100 60], 'String','Start', 'FontWeight', 'bold','Callback', @start);
+buttonStop = uicontrol('Style', 'pushbutton', 'Position',[820 100 100 60], 'String','Stop', 'FontWeight', 'bold','Callback', @stop);
 coordT1 = uicontrol('Style', 'edit', 'Position',[650 520 50 20],'Callback', @getTcoord1);
 coordT2 = uicontrol('Style', 'edit', 'Position',[750 520 50 20],'Callback', @getTcoord2);
 coordR1 = uicontrol('Style', 'edit', 'Position',[650 420 50 20],'Callback', @getRcoord1);
@@ -203,6 +205,12 @@ end
 
 function start(src,eventdata)
 isReady = 1;
+end
+
+function stop(src,eventdata)
+if isReady
+    timetoStop = 1;
+end
 end
 
 end

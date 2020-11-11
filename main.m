@@ -8,6 +8,7 @@ global Robotnum;
 global Targetnum;
 global Obstaclenum;
 global isReady;
+global timetoStop;
 global Target;
 global Robot;
 global Obstacle;
@@ -29,6 +30,7 @@ Obstaclenum = 0;
 Obstacle = cell(1);
 Obstacle{1} = cell(1,2);
 isReady = 0;
+timetoStop = 0;
 alreadyObstacle = 0;
 Robot = cell(1);
 Robot{1} = cell(1,3);
@@ -46,7 +48,7 @@ Tcoord2 = '';
 Rcoord1 = '';
 Rcoord2 = '';
 
-scale = 0.1;
+scale = 0.2;
 maxObstacle = 10;
 
 distT1 = 2;
@@ -92,8 +94,7 @@ end
 
 
 
-
-while true
+while not(timetoStop)
    for i = 1:Robotnum
        [Robot{i}{1},Robot{i}{2},Robot{i}{3}] = moving(Robot{i}{1},Robot{i}{2},Robot{i}{3});
    end
