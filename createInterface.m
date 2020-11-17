@@ -110,7 +110,7 @@ end
 
 function addRobot(src,eventdata)
 available = 1;
-if not(isReady)
+if not(isReady) && isnumeric(Rcoord1) && isnumeric(Rcoord2)
     for i = 1:Targetnum
         if Target{i}{2} == [Rcoord1 Rcoord2 0]
             available = 0;
@@ -140,7 +140,7 @@ end
 
 function addTarget(src,eventdata)
 available = 1;
-if not(isReady)
+if not(isReady) && isnumeric(Tcoord1) && isnumeric(Tcoord2)
     for i = 1:Targetnum
         if Target{i}{2} == [Tcoord1 Tcoord2 0]
             available = 0;

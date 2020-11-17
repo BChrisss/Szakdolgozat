@@ -20,9 +20,13 @@ global distR1;
 global distR2;
 global distO1;
 global distO2;
-global distpred;
+global distSensor;
 global maxObstacle;
 global alreadyObstacle;
+global weight;
+global currentTime;
+global globalMemory;
+
 
 Robotnum = 0;
 Targetnum = 0;
@@ -33,9 +37,9 @@ isReady = 0;
 timetoStop = 0;
 alreadyObstacle = 0;
 Robot = cell(1);
-Robot{1} = cell(1,3);
+Robot{1} = cell(1,5);
 lastRobot = cell(1);
-lastRobot{1} = cell(1,3);
+lastRobot{1} = cell(1,5);
 Target = cell(1);
 Target{1} = cell(1,3);
 lastTarget = cell(1);
@@ -43,22 +47,25 @@ lastTarget{1} = cell(1,3);
 lastRobotnum = 0;
 lastTargetnum = 0;
 
+globalMemory = zeros(10,10);
+currentTime = 0;
 Tcoord1 = '';
 Tcoord2 = '';
 Rcoord1 = '';
 Rcoord2 = '';
 
 scale = 0.2;
-maxObstacle = 10;
+weight = 0.5;
+maxObstacle = 100;
 
 distT1 = 2;
 distT2 = 4;
 distT3 = 8;
-distpred = 10;
+distSensor = 10;
 distR1 = 6;
 distR2 = 10;
-distO1 = 2;
-distO2 = 5;
+distO1 = 1.7;
+distO2 = 3;
 
 
 while isReady == 0
@@ -69,9 +76,11 @@ while isReady == 0
                 Robot{i}{1} = lastRobot{i}{1};
                 Robot{i}{2} = lastRobot{i}{2};
                 Robot{i}{3} = lastRobot{i}{3};
+                Robot{i}{4} = lastRobot{i}{4};
+                Robot{i}{5} = lastRobot{i}{5};
             end
         end
-        [Robot{Robotnum}{1},Robot{Robotnum}{2},Robot{Robotnum}{3}] = generateRobot(Rcoord1,Rcoord2);
+        [Robot{Robotnum}{1},Robot{Robotnum}{2},Robot{Robotnum}{3},Robot{Robotnum}{4},Robot{Robotnum}{5}] = generateRobot(Rcoord1,Rcoord2);
         lastRobot = Robot;
         lastRobotnum = Robotnum;
     end
@@ -93,13 +102,14 @@ while isReady == 0
 end
 
 
-
 while not(timetoStop)
+   currentTime = currentTime + 1;
+   updateglobalMemory();
    for i = 1:Robotnum
-       [Robot{i}{1},Robot{i}{2},Robot{i}{3}] = moving(Robot{i}{1},Robot{i}{2},Robot{i}{3});
+       [Robot{i}{1},Robot{i}{2},Robot{i}{3}] = moveRobot(Robot{i}{1},Robot{i}{2});
    end
    for i = 1:Targetnum
-       [Target{i}{1},Target{i}{2},Target{i}{3}] = moving(Target{i}{1},Target{i}{2},Target{i}{3});
+       [Target{i}{1},Target{i}{2},Target{i}{3}] = moveTarget(Target{i}{1},Target{i}{2},Target{i}{3});
    end
    drawnow
 end
