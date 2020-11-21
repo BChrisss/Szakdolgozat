@@ -14,7 +14,7 @@ global Obstaclenum;
 global maxObstacle;
 global alreadyObstacle;
 
-figure('Visible','on','Position',[300,100,1000,650], 'Name', 'Simulation', 'NumberTitle','off');
+figure('Visible','on','Position',[300,100,1000,650],'Name','Simulation','NumberTitle','off');
 axes('Units','Pixels','Position',[50,50,550,550]);
 
 xlim([0 50]);
@@ -175,7 +175,7 @@ if isnan(str2double(str))
     warndlg('Input must be numerical');
 elseif str2double(str) > maxObstacle || str2double(str) < 0
     set(src, 'String','');
-    warndlg('Input must be between 0 and the maximum number of obstacles');
+    warndlg(sprintf('Input must be between 0 and %d',maxObstacle));
 elseif floor(str2double(str))-str2double(str) ~= 0
     set(src, 'String','');
     warndlg('Input must be an integer');
@@ -189,7 +189,7 @@ end
 end
 
 function addObstacles(src,eventdata)
-    if not(isReady) && alreadyObstacle && isnumeric(Obstaclenum) && Obstaclenum == 0
+    if not(isReady) && alreadyObstacle && isnumeric(Obstaclenum)
         warndlg('You already created obstacles');
     end   
     

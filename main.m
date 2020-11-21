@@ -18,6 +18,7 @@ global distT2;
 global distT3;
 global distR1;
 global distR2;
+global distR3;
 global distO1;
 global distO2;
 global distSensor;
@@ -56,15 +57,16 @@ Rcoord2 = '';
 
 scale = 0.2;
 weight = 0.5;
-maxObstacle = 100;
+maxObstacle = 10;
 
 distT1 = 2;
 distT2 = 4;
 distT3 = 8;
 distSensor = 10;
-distR1 = 6;
-distR2 = 10;
-distO1 = 1.7;
+distR1 = 1.5;
+distR2 = 6;
+distR3 = 10;
+distO1 = 2;
 distO2 = 3;
 
 
@@ -88,10 +90,10 @@ while isReady == 0
     if lastTargetnum ~= Targetnum
         Target = cell(1,Targetnum);
         if lastTargetnum ~= 0
-            for i = 1:Targetnum-1
-                Target{i}{1} = lastTarget{i}{1};
-                Target{i}{2} = lastTarget{i}{2};
-                Target{i}{3} = lastTarget{i}{3};
+            for j = 1:Targetnum-1
+                Target{j}{1} = lastTarget{j}{1};
+                Target{j}{2} = lastTarget{j}{2};
+                Target{j}{3} = lastTarget{j}{3};
             end
         end
         [Target{Targetnum}{1},Target{Targetnum}{2},Target{Targetnum}{3}] = generateTarget(Tcoord1,Tcoord2);
@@ -108,8 +110,8 @@ while not(timetoStop)
    for i = 1:Robotnum
        [Robot{i}{1},Robot{i}{2},Robot{i}{3}] = moveRobot(Robot{i}{1},Robot{i}{2});
    end
-   for i = 1:Targetnum
-       [Target{i}{1},Target{i}{2},Target{i}{3}] = moveTarget(Target{i}{1},Target{i}{2},Target{i}{3});
+   for j = 1:Targetnum
+       [Target{j}{1},Target{j}{2},Target{j}{3}] = moveTarget(Target{j}{1},Target{j}{2},Target{j}{3});
    end
    drawnow
 end
