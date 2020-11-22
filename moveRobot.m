@@ -24,6 +24,7 @@ dirVector = [0 0 0];
 foundTarget = 0;
 maxSpeed = 1.2;
 minSpeed = 0.2;
+minDist = 1.5;
 goodRange = 0;
 
 for i = 1:Targetnum                                                     % Célponthoz vonzó erő
@@ -64,8 +65,12 @@ for i = 1:Targetnum                                                     % Célpo
             scaleValue = scaleValue*weight;
         end
         dirVector = dirVector + currentVector*scaleValue;
-    elseif currentDistance <= distT1
-        dirVector = dirVector - currentVector;
+    elseif currentDistance <= distT1 && currentDistance > minDist
+        scaleValue = -1/(currentDistance-minDist);
+        dirVector = dirVector + currentVector*scaleValue;
+    elseif currentDistance < minDist
+        scaleValue = 1/(currentDistance-minDist);
+        dirVector = dirVector + currentVector*scaleValue;  
     end
 end
 
@@ -83,11 +88,11 @@ for k = 1:Robotnum                                                      % Robott
         dirVector = dirVector - currentVector*scaleValue;
     elseif currentDistance <= distR2 && currentDistance > distR1
         dirVector = dirVector - currentVector;
-    elseif currentDistance <= distR1 && currentDistance > 1.2
-        scaleValue = -1/(currentDistance-1.2);
+    elseif currentDistance <= distR1 && currentDistance > minDist
+        scaleValue = -1/(currentDistance-minDist);
         dirVector = dirVector + currentVector*scaleValue;
-    elseif currentDistance < 1.2
-        scaleValue = 1/(currentDistance-1.2);
+    elseif currentDistance < minDist
+        scaleValue = 1/(currentDistance-minDist);
         dirVector = dirVector + currentVector*scaleValue;    
     end
 end
