@@ -22,7 +22,7 @@ for i = 1:Robotnum
                 foundTarget = 0;
                 
                 for p = 1:Targetnum
-                    if Target{p}{2}(1) > m && Target{p}{2}(1) < m+5 && Target{p}{2}(2) > n && Target{p}{2}(2) < n+5 && norm(Target{p}{2} - Robot{i}{2}) <= distSensor
+                    if Target{p}{2}(1) >= m && Target{p}{2}(1) < m+5 && Target{p}{2}(2) >= n && Target{p}{2}(2) < n+5 && norm(Target{p}{2} - Robot{i}{2}) <= distSensor
                         Robot{i}{4}(gridx,gridy) = Robot{i}{4}(gridx,gridy)*Robot{i}{5}(gridx,gridy)/currentTime + preference_add;
                         foundTarget = 1;
                     end
