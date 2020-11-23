@@ -21,6 +21,7 @@ global distR2;
 global distR3;
 global distO1;
 global distO2;
+global distO3;
 global distSensor;
 global maxObstacle;
 global alreadyObstacle;
@@ -63,11 +64,12 @@ distT1 = 2;
 distT2 = 4;
 distT3 = 8;
 distSensor = 10;
-distR1 = 1.5;
+distR1 = 2;
 distR2 = 6;
 distR3 = 10;
-distO1 = 2;
-distO2 = 3;
+distO1 = 1.7;
+distO2 = 1.8;
+distO3 = 2.5;
 
 
 while isReady == 0

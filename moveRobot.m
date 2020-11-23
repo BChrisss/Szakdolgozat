@@ -19,6 +19,7 @@ global distR3;
 global distSensor;
 global distO1;
 global distO2;
+global distO3;
 
 dirVector = [0 0 0];
 foundTarget = 0;
@@ -98,38 +99,44 @@ for k = 1:Robotnum                                                      % Robott
 end
 
 for l = 1:Obstaclenum                                                   % Akadályoktól taszító erő
-currentDistance = norm(Obstacle{l}{2} - currentPos);
-currentVector = (Obstacle{l}{2}-currentPos)/currentDistance;
-if currentDistance <= distO2 && currentDistance > distO1
-    distMatrix = [distO1 currentDistance distO2];
-    scaledMatrix = 1 - rescale(distMatrix,0,1);
-    scaleValue = scaledMatrix(2);
-    dirVector = dirVector - currentVector*scaleValue;
-elseif currentDistance <= distO1
-    dirVector = dirVector - currentVector;
-end
-% if currentDistance <= distO1 && currentDistance > 0
-%     scaleValue = -1/(currentDistance-1);
-%     dirVector = dirVector - currentVector*scaleValue;
-% end
+    currentDistance = norm(Obstacle{l}{2} - currentPos);
+    currentVector = (Obstacle{l}{2}-currentPos)/currentDistance;
+    if currentDistance <= distO3 && currentDistance > distO2
+        distMatrix = [distO2 currentDistance distO3];
+        scaledMatrix = 1 - rescale(distMatrix,0,1);
+        scaleValue = scaledMatrix(2);
+        dirVector = dirVector - currentVector*scaleValue;
+    elseif currentDistance <= distO2 && currentDistance > distO1
+        dirVector = dirVector - currentVector;
+    elseif currentDistance <= distO1 && currentDistance > minDist
+        scaleValue = -1/(currentDistance-minDist);
+        dirVector = dirVector + currentVector*scaleValue;
+    elseif currentDistance < minDist
+        scaleValue = 1/(currentDistance-minDist);
+        dirVector = dirVector + currentVector*scaleValue;    
+    end
 end
     
 if not(foundTarget)                                               % Ha nem lát célpontot, elindul a legfrekventáltabb terület felé
-    bestGrid = [2.5 2.5 0];
+    bestGrid = [0 0 0];
     maxAppearance = globalMemory(1,1);
     for m = 1:10
         for n = 1:10
             if globalMemory(m,n) > maxAppearance
-                targetPos = [(m-1)*5+2.5 (n-1)*5+2.5 0];
+                targetPos = [(m-1)*5 (n-1)*5 0];
                 currentVector = (targetPos-currentPos)/norm(targetPos-currentPos);
                 if norm(dirVector + currentVector) > minSpeed
                     bestGrid = targetPos;
+                    maxAppearance = globalMemory(m,n);
                 end
             end
         end
     end
-    currentVector = (bestGrid-currentPos)/norm(bestGrid-currentPos);
-    dirVector = dirVector + currentVector;
+    
+    if norm(bestGrid-currentPos) >= distSensor || norm((bestGrid+[5 0 0])-currentPos) >= distSensor || norm((bestGrid+[0 5 0])-currentPos) >= distSensor || norm((bestGrid+[5 5 0])-currentPos) >= distSensor
+        currentVector = (bestGrid-currentPos)/norm(bestGrid-currentPos);
+        dirVector = dirVector + currentVector;
+    end
 end
 
 
