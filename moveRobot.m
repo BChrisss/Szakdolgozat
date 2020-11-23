@@ -26,6 +26,7 @@ foundTarget = 0;
 maxSpeed = 1.2;
 minSpeed = 0.2;
 minDist = 1.5;
+minAngle = 10;
 goodRange = 0;
 
 for i = 1:Targetnum                                                     % Célponthoz vonzó erő
@@ -133,8 +134,15 @@ if not(foundTarget)                                               % Ha nem lát 
         end
     end
     
+    currentVector = (bestGrid-currentPos)/norm(bestGrid-currentPos);
+    
+    if (currentPos(1) > 50-distSensor/sqrt(2) && currentVector(1) > 0) || (currentPos(1) < distSensor/sqrt(2) && currentVector(1) < 0)
+        currentVector(1) = 0;
+    elseif (currentPos(2) > 50-distSensor/sqrt(2) && currentVector(2) > 0) || (currentPos(2) < distSensor/sqrt(2) &&currentVector(2) < 0)
+        currentVector(2) = 0;
+    end
+    
     if norm(bestGrid-currentPos) >= distSensor || norm((bestGrid+[5 0 0])-currentPos) >= distSensor || norm((bestGrid+[0 5 0])-currentPos) >= distSensor || norm((bestGrid+[5 5 0])-currentPos) >= distSensor
-        currentVector = (bestGrid-currentPos)/norm(bestGrid-currentPos);
         dirVector = dirVector + currentVector;
     end
 end

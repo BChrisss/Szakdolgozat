@@ -58,7 +58,7 @@ Rcoord2 = '';
 
 scale = 0.2;
 weight = 0.5;
-maxObstacle = 10;
+maxObstacle = 100;
 
 distT1 = 2;
 distT2 = 4;
