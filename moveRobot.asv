@@ -1,3 +1,6 @@
+% korábbi változat
+
+
 function [square, currentPos, dirVector] = moveRobot(square, currentPos) % Robot egy lépésének megtétele  
 
 global globalMemory;
