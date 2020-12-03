@@ -112,23 +112,23 @@ function addRobot(src,eventdata)
 available = 1;
 if not(isReady) && isnumeric(Rcoord1) && isnumeric(Rcoord2)
     for i = 1:Targetnum
-        if Target{i}{2} == [Rcoord1 Rcoord2 0]
+        if norm(Target{i}{2} - [Rcoord1 Rcoord2 0]) <= 1.5
             available = 0;
-            warndlg('There is already a target in this place');
+            warndlg('Too close to a target');
         end
     end
     
     for i = 1:Robotnum
-        if Robot{i}{2} == [Rcoord1 Rcoord2 0]
+        if norm(Robot{i}{2} - [Rcoord1 Rcoord2 0]) <= 1.5
             available = 0;
-            warndlg('There is already a robot in this place');
+            warndlg('Too close to another robot');
         end
     end
     
     for i = 1:Obstaclenum
-    if Obstacle{i}{2} == [Rcoord1 Rcoord2 0]
+    if norm(Obstacle{i}{2} - [Rcoord1 Rcoord2 0]) <= 1.5
         available = 0;
-        warndlg('There is already an obstacle in this place');
+        warndlg('Too close to an obstacle');
     end
     end
     
@@ -149,9 +149,9 @@ if not(isReady) && isnumeric(Tcoord1) && isnumeric(Tcoord2)
     end
     
     for i = 1:Robotnum
-        if Robot{i}{2} == [Tcoord1 Tcoord2 0]
+        if norm(Robot{i}{2} - [Tcoord1 Tcoord2 0]) <= 1.5
             available = 0;
-            warndlg('There is already a robot in this place');
+            warndlg('Too close to a robot');
         end
     end
     

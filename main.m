@@ -23,9 +23,9 @@ global distO1;
 global distO2;
 global distO3;
 global distSensor;
+global distPred;
 global maxObstacle;
 global alreadyObstacle;
-global weight;
 global currentTime;
 global globalMemory;
 
@@ -57,16 +57,16 @@ Rcoord1 = '';
 Rcoord2 = '';
 
 scale = 0.2;
-weight = 0.5;
-maxObstacle = 100;
+maxObstacle = 10;
 
 distT1 = 2;
 distT2 = 4;
-distT3 = 8;
-distSensor = 10;
+distT3 = 6;
+distSensor = 8;
+distPred = 10;
 distR1 = 2;
 distR2 = 6;
-distR3 = 10;
+distR3 = 8;
 distO1 = 1.7;
 distO2 = 1.8;
 distO3 = 2.5;

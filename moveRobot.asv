@@ -27,19 +27,6 @@ maxSpeed = 1.2;
 minSpeed = 0.2;
 minDist = 1.5;
 weight = 0.7;
-detectedTargets = 0;
-
-for z = 1:Targetnum
-    targetDistance = norm(Target{z}{2} - currentPos);
-    if targetDistance <= distSensor
-        detectedTargets = detectedTargets + 1;
-    end
-end
-
-if detectedTargets == 0
-    detectedTargets = 1;
-end
-weight = weight/detectedTargets;                                        % Súly meghatározása
 
 for i = 1:Targetnum                                                     % Célponthoz vonzó erő
     currentDistance = norm(Target{i}{2} - currentPos);
@@ -62,6 +49,18 @@ for i = 1:Targetnum                                                     % Célpo
             needWeight = 1;
         end
     end
+    
+    if needWeight                                                           % Súly kiszámítása
+        for z = 1:Targetnum
+
+        end
+    end
+    
+    if detectedTargets == 0
+        detectedTargets = 1;
+    end
+    
+    weight = weight/detectedTargets;
 
     if currentDistance <= distPred && currentDistance > distSensor
         sensedbyother = 0;

@@ -5,7 +5,7 @@ global Target;
 global Obstacle;
 global Obstaclenum;
 
-minDist = 1.1;
+minDist = 1.2;
 collided = 0;
 
 nextPos = currentPos + scale*dirVector;

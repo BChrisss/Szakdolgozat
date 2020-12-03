@@ -9,7 +9,7 @@ global currentTime;
 global globalMemory;
 
 preference_add = 0.05;
-preference_sub = 0.05;
+preference_sub = 0.1;
 globalSum1 = zeros(10,10);
 globalSum2 = zeros(10,10);
 
