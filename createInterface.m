@@ -13,8 +13,12 @@ global Obstacle;
 global Obstaclenum;
 global maxObstacle;
 global alreadyObstacle;
+global wantTrail;
+global Robotline;
+global Targetline;
+global drawSteps;
 
-figure('Visible','on','Position',[300,100,1000,650],'Name','Simulation','NumberTitle','off');
+figure('Visible','on','Position',[300,100,1000,650],'Name','Simulation','NumberTitle','off','color','cyan');
 axes('Units','Pixels','Position',[50,50,550,550]);
 
 xlim([0 50]);
@@ -28,9 +32,11 @@ coordT1 = uicontrol('Style', 'edit', 'Position',[650 520 50 20],'Callback', @get
 coordT2 = uicontrol('Style', 'edit', 'Position',[750 520 50 20],'Callback', @getTcoord2);
 coordR1 = uicontrol('Style', 'edit', 'Position',[650 420 50 20],'Callback', @getRcoord1);
 coordR2 = uicontrol('Style', 'edit', 'Position',[750 420 50 20],'Callback', @getRcoord2);
-Obstacletext = uicontrol('Style', 'text', 'Position', [670 300 150 18], 'String', 'Number of obstacles: ', 'FontWeight', 'bold');
+Obstacletext = uicontrol('Style', 'text', 'Position', [670 300 150 20], 'String', 'Number of obstacles: ', 'FontWeight', 'bold');
 settingObstaclesnum = uicontrol('Style', 'edit', 'Position',[820 300 50 20],'Callback', @setObstaclenum);
 buttonObstacle = uicontrol('Style', 'pushbutton', 'Position',[890 300 50 20], 'String','OK', 'FontWeight', 'bold','Callback', @addObstacles);
+Trailtext = uicontrol('Style', 'text', 'Position', [750 220 80 20], 'String', 'Show trails', 'FontWeight', 'bold');
+checkboxTrail = uicontrol('Style', 'checkbox', 'Position',[830 220 20 20],'Callback', @showTrail);
 
 function getTcoord1(src,eventdata)
 str = get(src, 'String');
@@ -202,6 +208,28 @@ function addObstacles(src,eventdata)
     end
     
 end
+
+function showTrail(src,eventdata)
+    if checkboxTrail.Value
+        wantTrail = 1;
+    else
+        wantTrail = 0;
+        for k = 1:drawSteps
+            for i = 1:Robotnum
+                if not(Robotline{i}{k} == 0)
+                    delete(Robotline{i}{k});
+                end
+            end
+
+            for j = 1:Targetnum
+                if not(Targetline{j}{k} == 0)
+                    delete(Targetline{j}{k});
+                end
+            end
+        end
+    end
+end
+
 
 function start(src,eventdata)
 isReady = 1;

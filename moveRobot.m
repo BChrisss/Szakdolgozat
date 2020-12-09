@@ -26,7 +26,7 @@ foundTarget = 0;
 maxSpeed = 1.2;
 minSpeed = 0.2;
 minDist = 1.5;
-weight = 0.7;
+weight = 0.5;
 detectedTargets = 0;
 
 for z = 1:Targetnum
@@ -43,7 +43,7 @@ weight = weight/detectedTargets;                                        % Súly 
 
 for i = 1:Targetnum                                                     % Célponthoz vonzó erő
     currentDistance = norm(Target{i}{2} - currentPos);
-    if currentDistance <= distPred && currentDistance > distSensor      % Prediktíven követett célpont
+    if currentDistance <= distPred && currentDistance > distSensor      % Érzékel-e célpontot
         for z = 1:Robotnum
             otherDistance = norm(Target{i}{2} - Robot{z}{2});
             if otherDistance <= distSensor
@@ -139,7 +139,7 @@ for l = 1:Obstaclenum                                                   % Akadá
     elseif currentDistance <= distO2 && currentDistance > distO1
         dirVector = dirVector - currentVector;
     elseif currentDistance <= distO1 && currentDistance > minDist
-        scaleValue = -1/(currentDistance-minDist);
+        scaleValue = -0.2/(currentDistance-minDist);
         dirVector = dirVector + currentVector*scaleValue;   
     end
 end
@@ -188,6 +188,7 @@ if nextPos(2) > 49 || nextPos(2) < 0
     dirVector(2) = 0;
 end
 nextPos = currentPos + scale*dirVector;
+
 
 set(square,'Position',[nextPos(1) nextPos(2) 1 1]);
 currentPos = nextPos;

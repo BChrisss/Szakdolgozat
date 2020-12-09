@@ -28,7 +28,10 @@ global maxObstacle;
 global alreadyObstacle;
 global currentTime;
 global globalMemory;
-
+global Robotline;
+global Targetline;
+global drawSteps;
+global wantTrail;
 
 Robotnum = 0;
 Targetnum = 0;
@@ -38,6 +41,7 @@ Obstacle{1} = cell(1,2);
 isReady = 0;
 timetoStop = 0;
 alreadyObstacle = 0;
+wantTrail = 0;
 Robot = cell(1);
 Robot{1} = cell(1,5);
 lastRobot = cell(1);
@@ -58,15 +62,16 @@ Rcoord2 = '';
 
 scale = 0.2;
 maxObstacle = 10;
+drawSteps = 50;
 
-distT1 = 2;
+distT1 = 2.5;
 distT2 = 4;
 distT3 = 6;
 distSensor = 8;
 distPred = 10;
-distR1 = 2;
-distR2 = 6;
-distR3 = 8;
+distR1 = 2.5;
+distR2 = 3;
+distR3 = 6;
 distO1 = 1.7;
 distO2 = 1.8;
 distO3 = 2.5;
@@ -106,8 +111,24 @@ while isReady == 0
 end
 
 
+Robotline = cell(1,Robotnum);
+Targetline = cell(1,Targetnum);
+for k = 1:drawSteps
+    for i = 1:Robotnum
+        Robotline{i}{k} = 0;
+    end
+    
+    for j = 1:Targetnum
+        Targetline{j}{k} = 0;
+    end
+end
+
+
 while not(timetoStop)
    currentTime = currentTime + 1;
+   if wantTrail   
+    drawLine();
+   end
    updateglobalMemory();
    for i = 1:Robotnum
        [Robot{i}{1},Robot{i}{2},Robot{i}{3}] = moveRobot(Robot{i}{1},Robot{i}{2});
