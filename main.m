@@ -77,8 +77,8 @@ distO2 = 1.8;
 distO3 = 2.5;
 
 
-while isReady == 0
-    if lastRobotnum ~= Robotnum
+while isReady == 0 
+    if lastRobotnum ~= Robotnum                                             % Robot hozzáadása
         Robot = cell(1,Robotnum);
         if lastRobotnum ~= 0
             for i = 1:Robotnum-1
@@ -94,7 +94,7 @@ while isReady == 0
         lastRobotnum = Robotnum;
     end
     
-    if lastTargetnum ~= Targetnum
+    if lastTargetnum ~= Targetnum                                              % Célpont hozzáadása
         Target = cell(1,Targetnum);
         if lastTargetnum ~= 0
             for j = 1:Targetnum-1
@@ -124,16 +124,16 @@ for k = 1:drawSteps
 end
 
 
-while not(timetoStop)
+while not(timetoStop)                                                       % Szimuláció fut
    currentTime = currentTime + 1;
-   if wantTrail   
+   if wantTrail                                                             % Mozgást jelző csík beállítása
     drawLine();
    end
-   updateglobalMemory();
-   for i = 1:Robotnum
+   updateglobalMemory();                                                    % Memóriamátrix frissítése
+   for i = 1:Robotnum                                                       % Robotok mozgása
        [Robot{i}{1},Robot{i}{2},Robot{i}{3}] = moveRobot(Robot{i}{1},Robot{i}{2});
    end
-   for j = 1:Targetnum
+   for j = 1:Targetnum                                                      % Célpontok mozgása
        [Target{j}{1},Target{j}{2},Target{j}{3}] = moveTarget(Target{j}{1},Target{j}{2},Target{j}{3});
    end
    drawnow

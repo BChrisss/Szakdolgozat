@@ -18,11 +18,12 @@ global Robotline;
 global Targetline;
 global drawSteps;
 
-figure('Visible','on','Position',[300,100,1000,650],'Name','Simulation','NumberTitle','off','color','cyan');
+figure('Visible','on','Position',[300,100,1000,650],'Name','Simulation','NumberTitle','off');
 axes('Units','Pixels','Position',[50,50,550,550]);
 
 xlim([0 50]);
 ylim([0 50]);
+
 
 buttonTarget = uicontrol('Style', 'pushbutton', 'Position',[850 500 100 60], 'String','Add Target', 'FontWeight', 'bold','Callback', @addTarget);
 buttonRobot = uicontrol('Style', 'pushbutton', 'Position',[850 400 100 60], 'String','Add Robot', 'FontWeight', 'bold','Callback', @addRobot);
@@ -40,7 +41,7 @@ checkboxTrail = uicontrol('Style', 'checkbox', 'Position',[830 220 20 20],'Callb
 
 function getTcoord1(src,eventdata)
 str = get(src, 'String');
-if isnan(str2double(str))
+if isnan(str2double(str))                                                   % Hibák lekezelése
     set(src, 'String','');
     Tcoord1 = str;
     warndlg('Input must be numerical');
@@ -53,7 +54,7 @@ elseif floor(str2double(str))-str2double(str) ~= 0
     Tcoord1 = str;
     warndlg('Input must be an integer');
 else
-    Tcoord1 = str2double(str);                                       % csak egész szám lehet kezdő koordináta
+    Tcoord1 = str2double(str);                                              % Megfelelő koordináta
 end
 end
 
@@ -117,7 +118,7 @@ end
 function addRobot(src,eventdata)
 available = 1;
 if not(isReady) && isnumeric(Rcoord1) && isnumeric(Rcoord2)
-    for i = 1:Targetnum
+    for i = 1:Targetnum                                                     % Szabad-e a hely
         if norm(Target{i}{2} - [Rcoord1 Rcoord2 0]) <= 1.5
             available = 0;
             warndlg('Too close to a target');
@@ -138,7 +139,7 @@ if not(isReady) && isnumeric(Rcoord1) && isnumeric(Rcoord2)
     end
     end
     
-    if isnumeric(Rcoord1) && isnumeric(Rcoord2) && available
+    if isnumeric(Rcoord1) && isnumeric(Rcoord2) && available                % Robot generálása
         Robotnum = Robotnum+1;
     end
 end
@@ -147,7 +148,7 @@ end
 function addTarget(src,eventdata)
 available = 1;
 if not(isReady) && isnumeric(Tcoord1) && isnumeric(Tcoord2)
-    for i = 1:Targetnum
+    for i = 1:Targetnum                                                     % Szabad-e a hely
         if Target{i}{2} == [Tcoord1 Tcoord2 0]
             available = 0;
             warndlg('There is already a target in this place');
@@ -168,7 +169,7 @@ if not(isReady) && isnumeric(Tcoord1) && isnumeric(Tcoord2)
     end
     end
     
-    if isnumeric(Tcoord1) && isnumeric(Tcoord2) && available
+    if isnumeric(Tcoord1) && isnumeric(Tcoord2) && available                % Célpont generálása
         Targetnum = Targetnum+1;
     end
 end
@@ -176,7 +177,7 @@ end
 
 function setObstaclenum(src,eventdata)
 str = get(src, 'String');
-if isnan(str2double(str))
+if isnan(str2double(str))                                                   % Hibák kezelése
     set(src, 'String','');
     warndlg('Input must be numerical');
 elseif str2double(str) > maxObstacle || str2double(str) < 0
@@ -185,7 +186,7 @@ elseif str2double(str) > maxObstacle || str2double(str) < 0
 elseif floor(str2double(str))-str2double(str) ~= 0
     set(src, 'String','');
     warndlg('Input must be an integer');
-else
+else                                                                        % Megfelelő szám
     Obstaclenum = str2double(str);
     for i = 1:Obstaclenum
         Obstacle{i}{1} = 0;
@@ -199,7 +200,7 @@ function addObstacles(src,eventdata)
         warndlg('You already created obstacles');
     end   
     
-    if not(isReady) && not(alreadyObstacle) && isnumeric(Obstaclenum) && Obstaclenum > 0
+    if not(isReady) && not(alreadyObstacle) && isnumeric(Obstaclenum) && Obstaclenum > 0  % Akadályok generálása
         Obstacle = cell(1,Obstaclenum);
         for i = 1:Obstaclenum
             [Obstacle{i}{1},Obstacle{i}{2}] = generateObstacle();
@@ -210,10 +211,10 @@ function addObstacles(src,eventdata)
 end
 
 function showTrail(src,eventdata)
-    if checkboxTrail.Value
+    if checkboxTrail.Value                                                  % Mozgást jelző csík bekapcsolása
         wantTrail = 1;
     else
-        wantTrail = 0;
+        wantTrail = 0;                                                      % Mozgást jelző csík kikapcsolása
         for k = 1:drawSteps
             for i = 1:Robotnum
                 if not(Robotline{i}{k} == 0)

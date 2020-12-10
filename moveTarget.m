@@ -9,7 +9,7 @@ minDist = 1.2;
 collided = 0;
 
 nextPos = currentPos + scale*dirVector;
-for i = 1:Obstaclenum
+for i = 1:Obstaclenum                                                       % Akadályokról lepattan
     if dirVector(1) > 0 && Obstacle{i}{2}(1)-nextPos(1) < minDist && Obstacle{i}{2}(1)-nextPos(1) >= 0 && abs(nextPos(2)-Obstacle{i}{2}(2)) <= 1
         dirVector(1) = -dirVector(1);
         collided = 1;
@@ -29,7 +29,7 @@ for i = 1:Obstaclenum
 end
 
 
-for j = 1:Targetnum
+for j = 1:Targetnum                                                         % Célpontok lepattannak egymásról
     if Target{j}{2} == currentPos
         break;
     end
@@ -52,14 +52,14 @@ for j = 1:Targetnum
 end
 
 nextPos = currentPos + scale*dirVector;
-if nextPos(1) > 49 || nextPos(1) < 0
+if nextPos(1) > 49 || nextPos(1) < 0                                        % Falról lepattan
     dirVector(1) = -dirVector(1);
 end
 if nextPos(2) > 49 || nextPos(2) < 0
     dirVector(2) = -dirVector(2);
 end
 if not(nextPos(1) > 49 || nextPos(1) < 0) && not(nextPos(2) > 49 || nextPos(2) < 0) && not(collided)
-    changedirVector = datasample([0 90 -90], 1, 'Weights',[0.98 0.01 0.01]);
+    changedirVector = datasample([0 90 -90], 1, 'Weights',[0.98 0.01 0.01]); % Kanyarodás esélye
     if changedirVector == 90
         dirVector = [-dirVector(2) dirVector(1) 0];
     elseif changedirVector == -90

@@ -39,11 +39,11 @@ end
 if detectedTargets == 0
     detectedTargets = 1;
 end
-weight = weight/detectedTargets;                                        % Súly meghatározása
+weight = weight/detectedTargets;                                            % Súly meghatározása
 
-for i = 1:Targetnum                                                     % Célponthoz vonzó erő
+for i = 1:Targetnum                                                         % Célponthoz vonzó erő
     currentDistance = norm(Target{i}{2} - currentPos);
-    if currentDistance <= distPred && currentDistance > distSensor      % Érzékel-e célpontot
+    if currentDistance <= distPred && currentDistance > distSensor          % Érzékel-e célpontot
         for z = 1:Robotnum
             otherDistance = norm(Target{i}{2} - Robot{z}{2});
             if otherDistance <= distSensor
@@ -56,14 +56,14 @@ for i = 1:Targetnum                                                     % Célpo
     currentVector = (Target{i}{2}-currentPos)/currentDistance;
     needWeight = 0;
 
-    for j = 1:Robotnum                                                  % Ha egy másik robot közelebb van a célponthoz, akkor csökkenti a vonzóerőt
+    for j = 1:Robotnum                                                      % Ha egy másik robot közelebb van a célponthoz, akkor csökkenti a vonzóerőt
         otherDistance = norm(Target{i}{2} - Robot{j}{2});
         if otherDistance < currentDistance
             needWeight = 1;
         end
     end
 
-    if currentDistance <= distPred && currentDistance > distSensor
+    if currentDistance <= distPred && currentDistance > distSensor          % Távolság alapján erő meghatározása
         sensedbyother = 0;
         for z = 1:Robotnum
             otherDistance = norm(Target{i}{2} - Robot{z}{2});
@@ -71,7 +71,7 @@ for i = 1:Targetnum                                                     % Célpo
                 sensedbyother = 1;
             end
         end
-        if sensedbyother                                                  % Ha egy másik robot érzékeli és prediktív követési tartományon belül van
+        if sensedbyother                                                    % Ha egy másik robot érzékeli és prediktív követési tartományon belül van
             distMatrix = [distT3 currentDistance distPred];
             scaledMatrix = 1 - rescale(distMatrix,0,1);
             scaleValue = scaledMatrix(2);
@@ -80,7 +80,7 @@ for i = 1:Targetnum                                                     % Célpo
             end
             dirVector = dirVector + currentVector*scaleValue;
         end
-    elseif currentDistance <= distSensor && currentDistance > distT3
+    elseif currentDistance <= distSensor && currentDistance > distT3  
         distMatrix = [distT3 currentDistance distPred];
         scaledMatrix = 1 - rescale(distMatrix,0,1);
         scaleValue = scaledMatrix(2);
@@ -98,7 +98,7 @@ for i = 1:Targetnum                                                     % Célpo
         distMatrix = [distT1 currentDistance distT2];
         scaledMatrix = rescale(distMatrix,-1,1);
         scaleValue = scaledMatrix(2);
-        if needWeight && currentDistance > (distT2-distT1)/2 + distT1   % Csak a vonzóerőt lehet csökkenteni
+        if needWeight && currentDistance > (distT2-distT1)/2 + distT1       % Csak a vonzóerőt lehet csökkenteni
             scaleValue = scaleValue*weight;
         end
         dirVector = dirVector + currentVector*scaleValue;
@@ -109,13 +109,13 @@ for i = 1:Targetnum                                                     % Célpo
 end
 
     
-for k = 1:Robotnum                                                      % Robottól taszító erő
+for k = 1:Robotnum                                                          % Robottól taszító erő
     currentDistance = norm(Robot{k}{2} - currentPos);
     currentVector = (Robot{k}{2}-currentPos)/currentDistance;
     if currentDistance == 0
         break;
     end
-    if currentDistance <= distR3 && currentDistance > distR2
+    if currentDistance <= distR3 && currentDistance > distR2                % Távolság alapján erő meghatározása
         distMatrix = [distR2 currentDistance distR3];
         scaledMatrix = 1 - rescale(distMatrix,0,1);
         scaleValue = scaledMatrix(2);
@@ -128,10 +128,10 @@ for k = 1:Robotnum                                                      % Robott
     end
 end
 
-for l = 1:Obstaclenum                                                   % Akadályoktól taszító erő
+for l = 1:Obstaclenum                                                       % Akadályoktól taszító erő
     currentDistance = norm(Obstacle{l}{2} - currentPos);
     currentVector = (Obstacle{l}{2}-currentPos)/currentDistance;
-    if currentDistance <= distO3 && currentDistance > distO2
+    if currentDistance <= distO3 && currentDistance > distO2                % Távolság alapján erő meghatározása
         distMatrix = [distO2 currentDistance distO3];
         scaledMatrix = 1 - rescale(distMatrix,0,1);
         scaleValue = scaledMatrix(2);
@@ -144,7 +144,7 @@ for l = 1:Obstaclenum                                                   % Akadá
     end
 end
     
-if not(foundTarget)                                               % Ha nem lát célpontot, elindul a legfrekventáltabb terület felé
+if not(foundTarget)                                                         % Ha nem lát célpontot, elindul a legjobbnak ígérkező terület felé
     bestGrid = [0 0 0];
     maxAppearance = globalMemory(1,1);
     for m = 1:10
@@ -162,7 +162,7 @@ if not(foundTarget)                                               % Ha nem lát 
     
     currentVector = (bestGrid-currentPos)/norm(bestGrid-currentPos);
     
-    if (currentPos(1) > 50-distSensor/sqrt(2) && currentVector(1) > 0) || (currentPos(1) < distSensor/sqrt(2) && currentVector(1) < 0)
+    if (currentPos(1) > 50-distSensor/sqrt(2) && currentVector(1) > 0) || (currentPos(1) < distSensor/sqrt(2) && currentVector(1) < 0)    % Nem megy túl közel a falhoz
         currentVector(1) = 0;
     elseif (currentPos(2) > 50-distSensor/sqrt(2) && currentVector(2) > 0) || (currentPos(2) < distSensor/sqrt(2) &&currentVector(2) < 0)
         currentVector(2) = 0;
@@ -181,7 +181,7 @@ end
 
 nextPos = currentPos + scale*dirVector;
 
-if nextPos(1) > 49 || nextPos(1) < 0
+if nextPos(1) > 49 || nextPos(1) < 0                                        % Fal mellett van
     dirVector(1) = 0;
 end
 if nextPos(2) > 49 || nextPos(2) < 0

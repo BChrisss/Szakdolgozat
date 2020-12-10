@@ -6,7 +6,7 @@ global Robotnum;
 
 available = 0;
 
-while not(available)
+while not(available)                                                        % Szabad helyet keres
 available = 1;
 coordx = randi(49);
 coordy = randi(49);
@@ -18,7 +18,7 @@ coordy = randi(49);
     end
     
     for i = 1:Robotnum
-        if norm(Robot{i}{2} - [coordx coordy 0]) <= 1.5                   % Robotokhoz nem kerület egy minimális távolságon belülre objektum
+        if norm(Robot{i}{2} - [coordx coordy 0]) <= 1.5                     % Robotokhoz nem kerület egy minimális távolságon belülre objektum
             available = 0;
         end
     end
